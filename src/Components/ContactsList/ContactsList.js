@@ -1,25 +1,35 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid"; // uuidv4()
 import ContactListItem from "../ContactsItem/ContactListItem";
-import { ToastContainer } from "react-toastify";
 import PropTypes from "prop-types"; // ES6
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import styles from './list.module.css';
+import slideTransition from '../../animations/slide.module.css';
 
-const ContactsList = ({ contactList, deleteContact }) => {
-  return (
-    <ul>
-      {contactList.map((contact) => (
+
+const ContactsList = ({ contactList, deleteContact }) => (
+  // <ul className={styles.list}>
+  <TransitionGroup component="ul" className={styles.list}> 
+    {contactList.map((contact) => (
+      <CSSTransition
+        key={contact.id}
+        classNames={slideTransition}
+          timeout={500}
+          mountOnEnter
+          unmountOnExit
+         >
+
         <ContactListItem
-          key={uuidv4()}
           name={contact.name}
           number={contact.number}
           deleteContact={deleteContact}
           contact={contact}
         />
-      ))}
-      <ToastContainer />
-    </ul>
-  );
-};
+        
+      </CSSTransition>
+    ))}
+   </TransitionGroup>
+  //  </ul>
+);
 
 ContactsList.propTypes = {
   contactsList: PropTypes.arrayOf(

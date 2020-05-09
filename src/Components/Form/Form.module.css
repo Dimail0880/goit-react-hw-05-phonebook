@@ -1,0 +1,38 @@
+.form {
+    width: 280px;
+    margin: auto;
+    padding: 10px 10px;
+  
+    margin-bottom: 20px;
+  }
+  
+  .name {
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0;
+    color: rgba(130, 136, 221);
+  }
+  
+  .input {
+    width: calc(100% - 6px);
+    height: 24px;
+    margin-bottom: 15px;
+    outline: none;
+  }
+  
+  .input:focus {
+    border: 1px solid rgb(75, 119, 240);
+  }
+  
+  .button {
+    font-weight: 400;
+    font-size: 20px;
+    width: 100%;
+    padding: 0;
+    height: 30px;
+    background-image: rgb(181, 181, 230);
+  }
+  
+  .button:hover {
+    cursor: pointer;
+  }

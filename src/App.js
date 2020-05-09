@@ -3,38 +3,36 @@ import Form from "./Components/Form/Form";
 import ContactsList from "./Components/ContactsList/ContactsList";
 import { v4 as uuidv4 } from "uuid"; // uuidv4()
 import ContactsFilterForm from "./Components/ContactsFilter/ContactsFilterForm";
-// import { toast } from 'react-toastify'; 
 import "react-toastify/dist/ReactToastify.css";
 import storage from "../src/helpers/storage";
+import { CSSTransition } from "react-transition-group";
+import slideTransition from "./animations/slide.module.css";
 
+const contactsData = storage.get("contacts");
 
 class App extends Component {
   state = {
     contacts: [],
     filter: "",
-    name: "",
-    number: "",
   };
 
-
-  async componentDidMount() {
-    const contactsData = storage.get("contacts");
+ componentDidMount() {
+   console.log("mount")
     if (contactsData) {
-      this.setState({ contacts: contactsData });
+      const newContacts = contactsData;
+      this.setState({ contacts: newContacts });
     }
   }
 
-
   componentDidUpdate(prevProps, prevState) {
-    this.updateStorage(prevState)
+  console.log("updata")
   }
 
   updateStorage = (prevState) => {
     if (prevState.contacts !== this.state.contacts) {
       storage.save("contacts", this.state.contacts);
     }
-  }
-
+  };
 
   handleChange = (e) => {
     const name = e.target.name;
@@ -42,34 +40,41 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
+  addItem = (item) => {
+    
+    const newContact = item;
+
+    if (this.state.contacts.find((el) => el.name === item.name)) {
+      alert(`${item.name} is already in contacts.`);
+    } else {
+      const newState = [...this.state.contacts, newContact];
+      this.setState({
+        contacts: newState,
+      });
+      storage.save("contacts", newState);
+    }
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const name = this.state.name;
-    const number = Number(this.state.number);
-
     const newContact = {
       id: uuidv4(),
       name: this.state.name,
       number: this.state.number,
     };
-    if (this.state.contacts.some((el) => el.name === this.state.name)) {
-      alert(`${this.state.name} is already in contacts.`);
-    } else if (!number && name === "") {
-      alert("Please, enter name and number, your input is empty");
-    } else if (!number) {
-      alert("Please, enter a correct number");
-    } else if (!name.length) {
-      alert("Please, enter a name");
-    } else if (Number(name)) {
-      alert("Please, enter a correct name - NOT A NUMBER");
-    } else {
-      this.setState((prevState) => ({
-        contacts: [...prevState.contacts, newContact],
-        name: "",
-        number: "",
-      }));
-    }
-    // toast.success("ADD SUCCESS")
+
+    this.addItem(newContact);
+  };
+
+  deleteContact = (id) => {
+
+        const newState = this.state.contacts.filter((el) => el.id !== id);
+
+    this.setState({
+      contacts: newState
+    });
+    storage.save("contacts", newState);
+
   };
 
   handleFilter = (e) => {
@@ -81,30 +86,32 @@ class App extends Component {
       el.name.toLowerCase().includes(filterValue.toLowerCase())
     );
 
-  deleteContact = (id) => {
-    this.setState((prevState) => ({
-      contacts: prevState.contacts.filter((el) => el.id !== id),
-    }));
-  };
-
   render() {
+    const {filter, contacts} = this.state
+
     const filteredContacts = this.getFilteredContacts(
-      this.state.filter,
-      this.state.contacts
+      filter,
+      contacts
     );
+    
+    
+    console.log("render");
     return (
       <>
         <h2>Phonebook</h2>
-        <Form
-          name={this.state.name}
-          number={this.state.number}
-          handleSubmit={this.handleSubmit}
-          handleChange={this.handleChange}
-        />
+        <Form addItem={this.addItem} />
         <h2>Contacts</h2>
-        {this.state.contacts.length >= 2 && (
+
+        <CSSTransition
+          in={this.state.contacts.length >= 2}
+          classNames={slideTransition}
+          timeout={{ enter: 500, exit: 500 }}
+          mountOnEnter
+          unmountOnExit
+        >
           <ContactsFilterForm handleFilter={this.handleFilter} />
-        )}
+        </CSSTransition>
+
         <ContactsList
           contactList={filteredContacts}
           deleteContact={this.deleteContact}
