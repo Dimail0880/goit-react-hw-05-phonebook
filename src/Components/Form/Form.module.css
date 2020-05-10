@@ -1,38 +1,67 @@
 .form {
-    width: 280px;
-    margin: auto;
-    padding: 10px 10px;
-  
-    margin-bottom: 20px;
-  }
-  
-  .name {
-    font-weight: 400;
-    font-size: 24px;
-    margin: 0;
-    color: rgba(130, 136, 221);
-  }
-  
-  .input {
-    width: calc(100% - 6px);
-    height: 24px;
-    margin-bottom: 15px;
-    outline: none;
-  }
-  
-  .input:focus {
-    border: 1px solid rgb(75, 119, 240);
-  }
-  
-  .button {
-    font-weight: 400;
-    font-size: 20px;
-    width: 100%;
-    padding: 0;
-    height: 30px;
-    background-image: rgb(181, 181, 230);
-  }
-  
-  .button:hover {
-    cursor: pointer;
-  }
+  width: 320px;
+  margin: auto;
+  padding: 10px 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 7px 4px 5px 0px rgba(0, 0, 0, 0.36);
+  position: relative;
+  border-radius: 3px;
+}
+
+.name {
+  text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 0;
+  color: rgb(0, 0, 0);
+  margin-left: 10px;
+}
+
+.input {
+  font-weight: 400;
+  font-size: 14px;
+  width: 280px;
+  padding: 0;
+  height: 30px;
+  margin: 10px;
+  outline: none;
+  margin-top: 0;
+  padding-left: 5px;
+}
+
+.input:focus {
+  border: 1px solid rgb(186, 204, 253);
+}
+
+.button {
+  font-weight: 400;
+  font-size: 20px;
+  width: 280px;
+  padding: 0;
+  height: 30px;
+  background-color: rgb(7, 73, 255);
+  border: none;
+  border-radius: 2px;
+  color: cornsilk;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: rgb(7, 73, 255);
+  background-color: cornsilk;
+  border: 2px solid rgb(7, 73, 255);
+  transition: all linear 300ms;
+}
+.errorMessage {
+  margin: 0 auto;
+  position: absolute;
+  bottom: 200px;
+  width: 300px;
+  height: auto;
+  color: aliceblue;
+  background-color: rgb(255, 45, 45);
+  padding: 5px;
+  border-radius: 3px;
+}

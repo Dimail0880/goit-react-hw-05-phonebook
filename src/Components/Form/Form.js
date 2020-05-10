@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./Form.module.css";
 import { v4 as uuidv4 } from "uuid"; // uuidv4()
 import { CSSTransition } from "react-transition-group";
-import slideTransition from "../../animations/slide.module.css";
+import popTransition from "../../animations/pop.module.css";
 
 export default class Form extends Component {
   state = {
@@ -67,14 +67,14 @@ export default class Form extends Component {
       <form onSubmit={this.handleSubmit} className={styles.form}>
         <CSSTransition
           in={isError}
-          classNames={slideTransition}
+          classNames={popTransition}
           timeout={{ enter: 2500, exit: 500 }}
           mountOnEnter
           unmountOnExit
         >
-          <p>{errorMessage}</p>
+          <p className={styles.errorMessage}>{errorMessage}</p>
         </CSSTransition>
-        <p className={styles.name}>name:</p>
+        <p className={styles.name}>Name:</p>
         <input
           type="text"
           name="name"
@@ -82,7 +82,7 @@ export default class Form extends Component {
           onChange={this.handleNameChange}
           className={styles.input}
         />
-        <p className={styles.name}>number:</p>
+        <p className={styles.name}>Number:</p>
         <input
           type="text"
           name="number"

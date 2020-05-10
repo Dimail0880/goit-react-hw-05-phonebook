@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.title-phonebook {
+  color: rgb(72, 72, 255);
+  text-align: left;
+  margin-left: 20px;
+}

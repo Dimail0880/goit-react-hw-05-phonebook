@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import storage from "../src/helpers/storage";
 import { CSSTransition } from "react-transition-group";
 import slideTransition from "./animations/slide.module.css";
-
+import "./App.css";
 const contactsData = storage.get("contacts");
 
 class App extends Component {
@@ -17,16 +17,14 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("mount");
+    this.setState({ didMount: true });
     if (contactsData) {
       const newContacts = contactsData;
       this.setState({ contacts: newContacts });
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log("updata");
-  }
+  componentDidUpdate(prevProps, prevState) {}
 
   updateStorage = (prevState) => {
     if (prevState.contacts !== this.state.contacts) {
@@ -79,20 +77,19 @@ class App extends Component {
     );
 
   render() {
-    const { filter, contacts } = this.state;
+    const { filter, contacts, didMount } = this.state;
 
     const filteredContacts = this.getFilteredContacts(filter, contacts);
 
-    console.log("render");
     return (
       <>
         <CSSTransition
-          in={this.state.contacts.length >= 2}
+          in={didMount}
           classNames={slideTransition}
           timeout={{ enter: 500, exit: 500 }}
           mountOnEnter
         >
-          <h2>Phonebook</h2>
+          <h2 className="title-phonebook">Phonebook</h2>
         </CSSTransition>
         <Form contacts={this.state.contacts} addItem={this.addItem} />
         <h2>Contacts</h2>
