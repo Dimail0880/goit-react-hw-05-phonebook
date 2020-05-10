@@ -16,8 +16,8 @@ class App extends Component {
     filter: "",
   };
 
- componentDidMount() {
-   console.log("mount")
+  componentDidMount() {
+    console.log("mount");
     if (contactsData) {
       const newContacts = contactsData;
       this.setState({ contacts: newContacts });
@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-  console.log("updata")
+    console.log("updata");
   }
 
   updateStorage = (prevState) => {
@@ -41,18 +41,12 @@ class App extends Component {
   };
 
   addItem = (item) => {
-    
     const newContact = item;
-
-    if (this.state.contacts.find((el) => el.name === item.name)) {
-      alert(`${item.name} is already in contacts.`);
-    } else {
-      const newState = [...this.state.contacts, newContact];
-      this.setState({
-        contacts: newState,
-      });
-      storage.save("contacts", newState);
-    }
+    const newState = [...this.state.contacts, newContact];
+    this.setState({
+      contacts: newState,
+    });
+    storage.save("contacts", newState);
   };
 
   handleSubmit = (e) => {
@@ -67,14 +61,12 @@ class App extends Component {
   };
 
   deleteContact = (id) => {
-
-        const newState = this.state.contacts.filter((el) => el.id !== id);
+    const newState = this.state.contacts.filter((el) => el.id !== id);
 
     this.setState({
-      contacts: newState
+      contacts: newState,
     });
     storage.save("contacts", newState);
-
   };
 
   handleFilter = (e) => {
@@ -87,19 +79,22 @@ class App extends Component {
     );
 
   render() {
-    const {filter, contacts} = this.state
+    const { filter, contacts } = this.state;
 
-    const filteredContacts = this.getFilteredContacts(
-      filter,
-      contacts
-    );
-    
-    
+    const filteredContacts = this.getFilteredContacts(filter, contacts);
+
     console.log("render");
     return (
       <>
-        <h2>Phonebook</h2>
-        <Form addItem={this.addItem} />
+        <CSSTransition
+          in={this.state.contacts.length >= 2}
+          classNames={slideTransition}
+          timeout={{ enter: 500, exit: 500 }}
+          mountOnEnter
+        >
+          <h2>Phonebook</h2>
+        </CSSTransition>
+        <Form contacts={this.state.contacts} addItem={this.addItem} />
         <h2>Contacts</h2>
 
         <CSSTransition

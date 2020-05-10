@@ -26,7 +26,7 @@ const ContactsList = ({ contactList, deleteContact }) => (
         />
         
       </CSSTransition>
-    ))}
+    )).reverse()}
    </TransitionGroup>
   //  </ul>
 );
